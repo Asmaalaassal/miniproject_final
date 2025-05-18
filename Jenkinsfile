@@ -2,7 +2,10 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'localhost:5000/miniproject:latest'
+        REGISTRY = 'localhost:5000'
+        IMAGE_BASE = 'miniproject'
+        IMAGE_TAG = "${env.BUILD_NUMBER}"
+        IMAGE_NAME = "${REGISTRY}/${IMAGE_BASE}:${IMAGE_TAG}"
     }
 
     stages {
@@ -24,15 +27,12 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
+        stage('Update Deployment') {
             steps {
-                script {
-                    def timestamp = System.currentTimeMillis()
-                    sh """
-                        sed -i 's/redeploy-timestamp: ".*"/redeploy-timestamp: "${timestamp}"/' k8s-deployment.yaml
-                        kubectl apply -f k8s-deployment.yaml
-                    """
-                }
+                sh """
+                    sed 's|IMAGE_PLACEHOLDER|$IMAGE_NAME|' k8s-deployment.yaml > k8s-deployment-final.yaml
+                    kubectl apply -f k8s-deployment-final.yaml
+                """
             }
         }
     }

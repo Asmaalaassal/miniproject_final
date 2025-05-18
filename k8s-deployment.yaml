@@ -14,11 +14,11 @@ spec:
       labels:
         app: my-site
       annotations:
-        redeploy-timestamp: "0"  # This will be overwritten to trigger redeploy
+        redeploy-timestamp: "TIMESTAMP_PLACEHOLDER"  # Triggers rollout on change
     spec:
       containers:
         - name: my-site
-          image: localhost:5000/miniproject:latest
+          image: IMAGE_PLACEHOLDER
           imagePullPolicy: Always
           ports:
             - containerPort: 80
