@@ -26,7 +26,13 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh 'kubectl apply -f k8s-deployment.yaml'
+                script {
+                    def timestamp = System.currentTimeMillis()
+                    sh """
+                        sed -i 's/redeploy-timestamp: ".*"/redeploy-timestamp: "${timestamp}"/' k8s-deployment.yaml
+                        kubectl apply -f k8s-deployment.yaml
+                    """
+                }
             }
         }
     }

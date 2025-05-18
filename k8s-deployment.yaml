@@ -13,10 +13,12 @@ spec:
     metadata:
       labels:
         app: my-site
+      annotations:
+        redeploy-timestamp: "0"  # This will be overwritten to trigger redeploy
     spec:
       containers:
         - name: my-site
-          image: 168.231.76.181:5000/miniproject:latest
+          image: localhost:5000/miniproject:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80
@@ -31,6 +33,6 @@ spec:
   type: NodePort
   ports:
     - protocol: TCP
-      port: 80         # Service port (external)
-      targetPort: 80   # Container port
+      port: 80
+      targetPort: 80
       nodePort: 30080
