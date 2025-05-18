@@ -32,4 +32,4 @@ spec:
     - protocol: TCP
       port: 80         # Service port (external)
       targetPort: 80   # Container port
-      nodePort: 80     # Exposes it on VPS host port 80 (K3s allows this)
+      nodePort: 30080
