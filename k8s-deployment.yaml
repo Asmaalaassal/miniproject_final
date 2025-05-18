@@ -17,6 +17,7 @@ spec:
       containers:
         - name: my-site
           image: 168.231.76.181:5000/miniproject:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
 ---
