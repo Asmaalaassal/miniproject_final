@@ -27,9 +27,8 @@ metadata:
 spec:
   selector:
     app: my-site
-  type: NodePort
   ports:
     - protocol: TCP
-      port: 80         # Service port (external)
-      targetPort: 80   # Container port
-      nodePort: 80     # Exposes it on VPS host port 80 (K3s allows this)
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
